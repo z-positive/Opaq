@@ -1,4 +1,4 @@
-﻿/*пользовательские функции   /htdocs/wlib/js */ 
+/*пользовательские функции*/
 
 function sendToScan(o)
 {
@@ -33,8 +33,8 @@ function backsendToScan(x)
 		frm.create('input',{className:'input_class','name':'bz',value:str,type:'hidden'});
 		frm.n.action="http://copy.liart.ru/opac";
 		frm.n.method="POST";
-		//frm.n.target="_blank";
-		frm.n.target="_self";
+		frm.n.target="_blank";
+		//frm.n.target="_self";
 		frm.n.submit();
 	}
 }
