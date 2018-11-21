@@ -1,4 +1,4 @@
-/*пользовательские функции  /htdocs/wlib/js */
+/*пользовательские функции  /htdocs/wlib/js/users.js */
 
 function sendToScan(o)
 {
