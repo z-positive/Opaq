@@ -39,7 +39,7 @@
 	/*box-shadow: -1px -1px 5px #6f0000;*/
 	bottom:-1px;
 	color:#6f001c;
-	font-weight:bolder;
+	/*font-weight:bolder;*/
 }
 .tab_to_switch_search span.opac:after, .body_opac .tab_to_switch_search span.opac:after, .body_discovery .tab_to_switch_search span.discovery:after
 {
