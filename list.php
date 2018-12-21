@@ -1,14 +1,26 @@
 <?php  
 // /htdocs/wlib/html/_modules/privat/list
-require_once(THEINCLUDESPATH.'/functions.php');  
+require_once(THEINCLUDESPATH.'/functions.php'); 
+//подключается обработчик информации о читателе
+require_once('getuserinfo.php'); 
+
 $globaloutput='<div id="infor"><div class="col_title">';
 $ufio="";
+
+
+
 if(isset($_POST['response']))
 {
+	
 	$result=prepareJson($_POST['response']);
 	$response0=$result->response_0;
 	list($rvars, $realname) = printResponseVars($response0,"");
 	echo $rvars;
+	
+	//создание скрытого поля с информацией о читателе для дальнейшей передачи scan.liart.ru
+	$user_info = getuserinfo($response0->session);
+	$globaloutput .= '<input type="hidden" id="user_card_info" value="'.$user_info.'" />';
+	
 	if(isset($response0->_iddb))
 		$iddb=$response0->_iddb;
 	if(isset($response0->_localiddb))
@@ -173,4 +185,6 @@ else
 include (THEPAGESPATH.'/includes/'.$particle.'searchdiv.php');
 echo $globaloutput;
 include (THEPAGESPATH.'/includes/'.$particle.'footer.php');
+
 ?>
+

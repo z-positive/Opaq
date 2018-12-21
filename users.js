@@ -74,6 +74,8 @@ function backMultiAddToScan(x){
 	
 	var resp = eval(x.responseText);
 	
+	var user_card = document.getElementById('user_card_info').value;
+	console.log(user_card);
 	
 	if(x.responseText.indexOf('error={') + 1){
 	
@@ -84,6 +86,8 @@ function backMultiAddToScan(x){
 		var str=JSON.stringify(resp);		
 		var frm=take(document.body).create('form');
 		frm.create('input',{className:'input_class','name':'bz',value:str,type:'hidden'});
+		frm.create('input',{className:'user_info','name':'user_info',value:_fio,type:'hidden'});
+		frm.create('input',{className:'user_card','name':'user_card',value:user_card,type:'hidden'});
 		frm.n.action="http://copy.liart.ru/opaclib";
 		frm.n.method="POST";
 		frm.n.target="_blank";
