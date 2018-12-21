@@ -112,7 +112,7 @@ if(isset($_POST['response']))
 			$globaloutput.='<option value="'.$total.'" selected="selected">все</option>';
 		else
 			$globaloutput.='<option value="'.$total.'">все</option>';
-		$globaloutput.='</select></span><span class="fleft"><b style="margin-left:5px">Всего записей в списке:</b> <b class="highlight" id="termin1">'.$total.'</b>&#160;&#160;<b>Отмечено записей:</b> <b class="highlight" id="marked">0</b><br/>'.$uclaim.'<input type="button" class="button2" value="Печать cписка" onmousedown="listPrint();"/><input type="button" class="button2" value="Выгрузить в Word" onmousedown="loadWord();"/><input type="button" class="button2" value="Удалить" onmousedown="listDel();"/><input type="button" class="button2" value="Заказать копию" onmousedown="multiAddToScan();"/>'.$uhistlog.'</span><div class="spacer" style="height: 5px"> </div></div>';
+		$globaloutput.='</select></span><span class="fleft"><b style="margin-left:5px">Всего записей в списке:</b> <b class="highlight" id="termin1">'.$total.'</b>&#160;&#160;<b>Отмечено записей:</b> <b class="highlight" id="marked">0</b><br/>'.$uclaim.'<input type="button" class="button2" value="Печать cписка" onmousedown="listPrint();"/><input type="button" class="button2" value="Выгрузить в Word" onmousedown="loadWord();"/><input type="button" class="button2" value="Удалить" onmousedown="listDel();"/><input type="button" class="button2" value="Копировать фрагмент" onmousedown="multiAddToScan();"/>'.$uhistlog.'</span><div class="spacer" style="height: 5px"> </div></div>';
 		$N1=ceil($total/$length);
 		//$output.='<div><span class="url uslugi" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span></div>';
 		if($N1!= 1)
