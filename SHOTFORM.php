@@ -211,13 +211,14 @@ foreach ($response0 as $key => $value)
 				{
 					$tabs.='<span title="place" class="add1" onmousedown="seePlace(this,\''.$theid.'\',\''.$count.'\',\''.$rdb.'\')">Местонахождение</span>';
 					$tabdivs.='<div class="adddiv" id="place'.$count.'" style="display:none"></div>';
+					//$tabs.='<span class="place" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span>';
 				}
 			}
 /*-----------кнопка для перехода в сервис--------*/
 		//$output.='<div><span class="url uslugi" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span></div>';
 /*-------конец кнопка для перехода в сервис------*/
 
-			$output.='<div class="tabs">'.$tabs.'<span class="url uslugi" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span></div><div class="tabdivs">'.$tabdivs.'</div>';
+			$output.='<div class="tabs">'.$tabs.'<span class="url" onmousedown="sendToScan(\''.$theid.'\');">Копировать фрагмент</span></div><div class="tabdivs">'.$tabdivs.'</div>';
 			
 			if($imgsrc!="")
 				$imgstr='<figure tabindex="1"><img border="0" hspace="0" vspace="0" alt="" title="" src="'.$imgsrc.'"/></figure>';
