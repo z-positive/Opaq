@@ -2,11 +2,21 @@
 ///htdocs/wlib/html/_modules/privat
 function getuserinfo($session){
 	
-	$user_structure = file_get_contents(THEHISTORYPATH."/".$session."/user.conf");
 	
-	$user_structure = str_replace("\"","'",$user_structure);
 	
-	return $user_structure;
+	$handle = fopen(THEHISTORYPATH."/".$session."/user.conf", "r");
+	
+	while (!feof($handle)) {
+		$buffer[] = fgets($handle, 4096);
+		
+	}
+	fclose($handle);
+	
+	$str = http_build_query($buffer);
+	
+	
+	
+	return $str;
 }
 
 ?>
