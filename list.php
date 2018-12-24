@@ -1,13 +1,9 @@
 <?php  
 // /htdocs/wlib/html/_modules/privat/list
 require_once(THEINCLUDESPATH.'/functions.php'); 
-//подключается обработчик информации о читателе
-require_once('getuserinfo.php'); 
 
 $globaloutput='<div id="infor"><div class="col_title">';
 $ufio="";
-
-
 
 if(isset($_POST['response']))
 {
@@ -142,6 +138,8 @@ if(isset($_POST['response']))
 						$globaloutput.='<tr class="c2"><td class="check w3 acenter"><input type="checkbox" name="marker" value="'.$value->id.'" onclick="countList()" class="'.$ldb.'"/></td><td class="num w3 acenter b">'.($start+$count).'.</td><td class="short">';
 					}
 					$arr=$value->ORDERFORM_0;
+					
+					
 					$arrlen=count($arr);
 					for($j=0; $j<$arrlen; $j++)
 					{
@@ -165,6 +163,7 @@ if(isset($_POST['response']))
 					$count++;
 					$globaloutput.='<tr style="background: #fff"><td class="check"  class="w3 acenter"><input type="checkbox" name="marker" value="'.$value->id.'" onclick="countList()" class="'.$ldb.'"/></td><td class="num"  class="w3 acenter b">'.($start+$count).'</td><td class="short" style="color: #900">';
 					$globaloutput.=$value->error_0[0].'</td><td class="acenter">'.$ldb.'</td><td class="acenter">'.substr($value->date,6).'.'.substr($value->date,4,2).'.'.substr($value->date,0,4).' '.substr($value->time,0,2).':'.substr($value->time,2,2).':'.substr($value->time,4).'</td></tr>';
+					
 				}
 			}
 		}

@@ -33,6 +33,8 @@ function backsendToScan(x)
 	
 	var bk = document.getElementById(bk_id).firstChild.firstChild.innerHTML.slice(3);
 	
+	var user_card = document.getElementById('user_card_info').value;
+	
 	if(response[0]._result_0._SHORTWEB_RGBI_0 != null)
 	{
 		
@@ -40,6 +42,7 @@ function backsendToScan(x)
 		var frm=take(document.body).create('form');
 		frm.create('input',{className:'input_class','name':'bz',value:str,type:'hidden'});
 		frm.create('input',{className:'bk_title','name':'bk_title',value:bk,type:'hidden'});
+		frm.create('input',{className:'user_card','name':'user_card',value:user_card,type:'hidden'});
 		frm.n.action="http://copy.liart.ru/opac";
 		frm.n.method="POST";
 		frm.n.target="_blank";
