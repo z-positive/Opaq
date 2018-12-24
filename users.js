@@ -21,12 +21,17 @@ function sendToScan(o)
 
 function backsendToScan(x)
 {
+
 	/*var win=window.open();
 	win.document.open();
 	win.document.write(x.responseText);
 	win.document.close();*/
 	eval(x.responseText);
-	console.log(x.responseText);
+	
+
+	var bk_id = response[0]._result_0._id.split("\\").join("\\\\");
+	
+	var bk = document.getElementById(bk_id).firstChild.firstChild.innerHTML.slice(3);
 	
 	if(response[0]._result_0._SHORTWEB_RGBI_0 != null)
 	{
@@ -34,6 +39,7 @@ function backsendToScan(x)
 		var str=JSON.stringify(response[0]._result_0._SHORTWEB_RGBI_0);		
 		var frm=take(document.body).create('form');
 		frm.create('input',{className:'input_class','name':'bz',value:str,type:'hidden'});
+		frm.create('input',{className:'bk_title','name':'bk_title',value:bk,type:'hidden'});
 		frm.n.action="http://copy.liart.ru/opac";
 		frm.n.method="POST";
 		frm.n.target="_blank";
