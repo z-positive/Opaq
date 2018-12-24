@@ -1,4 +1,5 @@
 <?php  
+///htdocs/wlib/html/_modules/search
 require_once(THEINCLUDESPATH.'/functions.php'); 
 $globaloutput='<div id="infor"><div class="col_title"><span class="bread" id="index_" onmousedown="goToLocation(this.id)">Главная</span> / <span class="caption">';
 
