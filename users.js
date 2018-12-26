@@ -31,7 +31,11 @@ function backsendToScan(x)
 
 	var bk_id = response[0]._result_0._id.split("\\").join("\\\\");
 	
-	var bk = document.getElementById(bk_id).firstChild.firstChild.innerHTML.slice(3);
+	//var bk = document.getElementById(bk_id).firstChild.firstChild.innerHTML.slice(3);
+	
+	var bk = document.getElementById(bk_id).firstChild.childNodes[1].innerHTML.slice(3);
+	
+	console.log(bk);
 	
 	var user_card = document.getElementById('user_card_info').value;
 	
