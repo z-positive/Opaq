@@ -1,0 +1,9 @@
+/* /htdocs/wlib/css */
+.sldr-item {
+	float:left;
+	padding:10px;
+}
+
+.sldr-item img {
+	height:375px;
+}
