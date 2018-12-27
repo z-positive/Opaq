@@ -9,7 +9,7 @@ require_once "get_books.php";
 			<!--<div class="td w33 p3 h100 vtop curs acenter" onmousedown="searchNews(null,300);">-->
 			<div class="td w33 p3 h100 vtop curs acenter">
 				<div class="dib w100">
-					<div class="header">Новые поступления</div>
+					<div onmousedown="searchNews(null,300);" class="header">Новые поступления</div>
 					<!--div class="spacer h100x"></div-->
 					<div id="newbooks"><!-- не трогать -->
 	
@@ -20,7 +20,7 @@ require_once "get_books.php";
 					
 					</div><!-- не трогать -->
 					
-					<div class="else1"><span>Еще...</span></div>
+					<div onmousedown="searchNews(null,300);" class="else1"><span>Еще...</span></div>
 					
 				</div>
 				
