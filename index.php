@@ -13,14 +13,12 @@ require_once "get_books.php";
 					<!--div class="spacer h100x"></div-->
 					<div id="newbooks"><!-- не трогать -->
 	
-						<div id="sldr">
-						
-						</div>
-					
-					
+						<div id="sldr"></div>
+
 					</div><!-- не трогать -->
-					
-					<div onmousedown="searchNews(null,300);" class="else1"><span>Еще...</span></div>
+					<a class="button15" id="more_books">Показать еще...</a>
+					<div class="spacer h50x"></div>
+					<div onmousedown="searchNews(null,300);" class="else1"><span>Список новых поступлений...</span></div>
 					
 				</div>
 				
@@ -54,65 +52,109 @@ require_once "get_books.php";
 
 <script type="text/javascript">
 
-var data = <?php echo $con->data; ?>;
+	var data = <?php echo $con->data; ?>;
 
-var start = 0;
-var end = 3;
+	var slider = {};
 
-var prnt = document.getElementById('sldr');
+	slider.get_link = function(text){
+		
+		var htmlObject = document.createElement('div');
+		
+		htmlObject.innerHTML = text;
+		
+		var link = htmlObject.getElementsByTagName('a');
+		
+		return link[0].href;
 
+	}
 
-function get_link(text){
-	
-	var htmlObject = document.createElement('div');
-	
-	htmlObject.innerHTML = text;
-	
-	var link = htmlObject.getElementsByTagName('a');
-	
-	return link[0].href;
+	slider.start = 0;
+	slider.end = 3;
 
-}
+	var prnt = document.getElementById('sldr');
 
-for(var i=start;i<end;i++){
+	slider.cycle = function(){
+		
+		for(var i=slider.start;i<slider.end;i++){
 
-	var sldr_item = document.createElement('div');
-	sldr_item.className = "sldr-item";
-	sldr_item.style = "width:300px;";
-	
-	var img = document.createElement('img');
-	img.src = "http://liart.ru/media/uploads/newinlib/itemavatars/big/" + data[i]['avatar_img_name'];
-	img.style = "padding:10px;";
-	
-	
-	var link = document.createElement('a');
-	
-	link.href = get_link(data[i]['content']);
-	link.target = "_blank";
-	link.innerHTML = "Ccылка на книгу";
-	
-	
-	var image_link = document.createElement('a');
-	image_link.href = link.href;
-	image_link.target = "_blank";
-	
-	
-	var title = document.createElement('p');
-	title.innerHTML = data[i]['title'];
-	title.style = "line-height:1.5em;";
-	
-	
-	prnt.appendChild(sldr_item);
-	sldr_item.appendChild(image_link);
-	image_link.appendChild(img);
-	sldr_item.appendChild(link);
-	sldr_item.appendChild(title);
-}
+		var sldr_item = document.createElement('div');
+		sldr_item.className = "sldr-item";
+		sldr_item.style = "width:300px;";
+		
+		var img = document.createElement('img');
+		img.src = "http://liart.ru/media/uploads/newinlib/itemavatars/big/" + data[i]['avatar_img_name'];
+		img.style = "padding:10px;";
+		
+		
+		var link = document.createElement('a');
+		
+		link.href = slider.get_link(data[i]['content']);
+		link.target = "_blank";
+		link.innerHTML = "Ccылка на книгу";
+		
+		
+		var image_link = document.createElement('a');
+		image_link.href = link.href;
+		image_link.target = "_blank";
+		
+		
+		var title = document.createElement('p');
+		title.innerHTML = data[i]['title'];
+		title.style = "line-height:1.5em;";
+		
+		
+		prnt.appendChild(sldr_item);
+		sldr_item.appendChild(image_link);
+		image_link.appendChild(img);
+		sldr_item.appendChild(link);
+		sldr_item.appendChild(title);
+	}
+
+	}
+
+	slider.cycle();
+
+	slider.add_books = function(){
+		
+		prnt.innerHTML = '';
+		
+		if(slider.end == data.length){
+			slider.start=0;
+			slider.end=3;
+		}else{
+			slider.start+=3;
+			slider.end+=3;
+		}
+		
+		slider.cycle();
+	} 
+	 
+	document.getElementById('more_books').addEventListener('click',slider.add_books);
 
 </script>
+<script type="text/javascript">
+	//блок бездействия
+	var t;
+	document.onload = resetTimer;
+	document.onmousemove = resetTimer;
+	document.onmousedown = resetTimer; 
+	document.ontouchstart = resetTimer;
+	document.onclick = resetTimer;     
+	document.onscroll = resetTimer;    
+	document.onkeypress = resetTimer;
 
 
+	function clicker() {
+		document.getElementById('more_books').click();
+	}
 
+	function resetTimer() {
+		clearTimeout(t);
+		t = setTimeout(clicker, 15000)
+		  // 1000 milisec = 1 sec
+	}
+
+</script>
 <?php 
 include (THEPAGESPATH.'/includes/footer.php');
 ?>
