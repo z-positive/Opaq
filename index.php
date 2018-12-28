@@ -106,7 +106,7 @@ require_once "get_books.php";
 		prnt.appendChild(sldr_item);
 		sldr_item.appendChild(image_link);
 		image_link.appendChild(img);
-		sldr_item.appendChild(link);
+		//sldr_item.appendChild(link);
 		sldr_item.appendChild(title);
 	}
 
