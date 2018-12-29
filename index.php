@@ -62,10 +62,14 @@ require_once "get_books.php";
 		
 		htmlObject.innerHTML = text;
 		
-		var link = htmlObject.getElementsByTagName('a');
+		//проверка есть ли ссылка в публикации о новинке
+		if (htmlObject.innerHTML.indexOf("</a>") != -1) {
+			var link = htmlObject.getElementsByTagName('a');
+			return link[0].href;
+		}else{
+			return '#';
+		}
 		
-		return link[0].href;
-
 	}
 
 	slider.start = 0;
@@ -89,12 +93,20 @@ require_once "get_books.php";
 		var link = document.createElement('a');
 		
 		link.href = slider.get_link(data[i]['content']);
+		
+		console.log(link.href);
 		link.target = "_blank";
 		link.innerHTML = "Ccылка на книгу";
 		
 		
 		var image_link = document.createElement('a');
 		image_link.href = link.href;
+		
+		//если ссылки в публикации о новинке нет, то атрибут ссылки удаляется
+		if(link.href.slice(-1) == '#'){
+			image_link.removeAttribute('href');
+		}
+		
 		image_link.target = "_blank";
 		
 		
@@ -103,11 +115,11 @@ require_once "get_books.php";
 		title.style = "line-height:1.5em;";
 		
 		
-		prnt.appendChild(sldr_item);
-		sldr_item.appendChild(image_link);
-		image_link.appendChild(img);
-		//sldr_item.appendChild(link);
-		sldr_item.appendChild(title);
+		prnt.appendChild(sldr_item); //элемент слайдера
+		sldr_item.appendChild(image_link); //ссылка, в которой находится картинка
+		image_link.appendChild(img); //картинка
+		//sldr_item.appendChild(link); // отдельная ссылка на публикацию
+		sldr_item.appendChild(title); // заголовок
 	}
 
 	}

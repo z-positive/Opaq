@@ -35,7 +35,7 @@ class Db{
 		   SELECT newinlib_itemcontent.id,newinlib_itemcontent.title,newinlib_itemcontent.content, newinlib_item.avatar_img_name 
 		   FROM newinlib_itemcontent 
 		   JOIN newinlib_item ON newinlib_itemcontent.item_id = newinlib_item.id
-		   ORDER BY id DESC LIMIT 21
+		   ORDER BY id DESC LIMIT 300
 	   '));
    
     }
