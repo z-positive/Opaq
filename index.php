@@ -7,20 +7,26 @@ require_once "get_books.php";
 	<div class="table index_page">
 		<div class="row h100">
 			<!--<div class="td w33 p3 h100 vtop curs acenter" onmousedown="searchNews(null,300);">-->
-			<div class="td w33 p3 h100 vtop curs acenter">
+			<div class="td w33 p3 h100 vtop acenter">
 				<div class="dib w100">
 					<div onmousedown="searchNews(null,300);" class="header">Новые поступления</div>
 					<!--div class="spacer h100x"></div-->
 					<div id="newbooks"><!-- не трогать -->
 	
 						<div id="sldr"></div>
-
+						
+						
 					</div><!-- не трогать -->
 					<a class="button15" id="more_books">Показать еще...</a>
 					<div class="spacer h50x"></div>
 					<div onmousedown="searchNews(null,300);" class="else1"><span>Список новых поступлений...</span></div>
 					
 				</div>
+				
+				<div id="lstbks"></div>
+						
+				<div id="btn_add" style="clear:both"><a class="button15" id="add_books">Добавить еще...</a></div>
+				
 				
 			</div>
 			
@@ -71,9 +77,12 @@ require_once "get_books.php";
 		}
 		
 	}
-
+	
+	//счетчики для слайдера
 	slider.start = 0;
 	slider.end = 3;
+	
+	
 
 	var prnt = document.getElementById('sldr');
 
@@ -94,7 +103,7 @@ require_once "get_books.php";
 		
 		link.href = slider.get_link(data[i]['content']);
 		
-		console.log(link.href);
+		//console.log(link.href);
 		link.target = "_blank";
 		link.innerHTML = "Ccылка на книгу";
 		
@@ -126,6 +135,7 @@ require_once "get_books.php";
 
 	slider.cycle();
 
+	// пролистывание слайдера
 	slider.add_books = function(){
 		
 		prnt.innerHTML = '';
@@ -140,7 +150,90 @@ require_once "get_books.php";
 		
 		slider.cycle();
 	} 
-	 
+	
+	
+	//счетчики для листа
+	slider.startlist = 3;
+	slider.endlist = 9;
+	
+	//контейнер для листа
+	var lstbks = document.getElementById('lstbks');
+	
+	//цикл для добавления книг в лист
+	slider.cyclelist = function(){
+		
+		for(var j=slider.startlist;j<slider.endlist;j++){
+			
+			var lst_item = document.createElement('div');
+			lst_item.className = "list-item";
+			lst_item.style = "width:300px;";
+			
+			var img = document.createElement('img');
+			img.src = "http://liart.ru/media/uploads/newinlib/itemavatars/big/" + data[j]['avatar_img_name'];
+			img.style = "padding:10px;";
+			
+			var link = document.createElement('a');
+		
+			link.href = slider.get_link(data[j]['content']);
+			
+			//console.log(link.href);
+			//link.target = "_blank";
+			//link.innerHTML = "Ccылка на книгу";
+			
+			
+			var image_link = document.createElement('a');
+			image_link.href = link.href;
+			
+			//если ссылки в публикации о новинке нет, то атрибут ссылки удаляется
+			if(link.href.slice(-1) == '#'){
+				image_link.removeAttribute('href');
+			}
+			
+			image_link.target = "_blank";
+			
+			
+			var title = document.createElement('p');
+			var title_text = data[j]['title'];
+			
+			if(title_text.length>135){
+				title_text = title_text.substring(0,136) + " ...";
+			}
+			
+			
+			//title.innerHTML = data[j]['title'];
+			
+			title.innerHTML = title_text;
+			
+			title.style = "line-height:1.5em;";
+			
+			
+			lstbks.appendChild(lst_item); //элемент слайдера
+			lst_item.appendChild(image_link); //ссылка, в которой находится картинка
+			image_link.appendChild(img); //картинка
+			//sldr_item.appendChild(link); // отдельная ссылка на публикацию
+			lst_item.appendChild(title); // заголовок
+			
+
+		}
+
+	}
+	
+	
+	//добавление книг в лист
+	slider.add_books_list = function(){
+		
+		if(slider.endlist > 173){
+			document.getElementById('btn_add').style="display:none";
+		}
+		
+		slider.startlist+=6;
+		slider.endlist+=6;
+		slider.cyclelist();
+				
+	} 
+	
+	
+	document.getElementById('add_books').addEventListener('click',slider.add_books_list); 
 	document.getElementById('more_books').addEventListener('click',slider.add_books);
 
 </script>

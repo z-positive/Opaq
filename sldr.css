@@ -1,11 +1,21 @@
 /* /htdocs/wlib/css */
-.sldr-item {
+.sldr-item ,.list-item {
 	float:left;
 	padding:10px;
 }
 
-.sldr-item img {
+.sldr-item img,.list-item img {
 	height:375px;
+}
+
+#lstbks{
+	width:1000px;
+	margin: 0 auto;
+}
+
+
+.list-item{
+	height:500px;
 }
 
 
