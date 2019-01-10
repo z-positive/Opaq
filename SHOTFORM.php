@@ -1,6 +1,6 @@
 <?php
 ///htdocs/wlib/html/_modules/search/_output
-
+require_once(THEINCLUDESPATH.'/handlers.php'); 
 foreach ($response0 as $key => $value)
 {
 	$res = strpos($key, 'result_'); 
@@ -211,14 +211,18 @@ foreach ($response0 as $key => $value)
 				{
 					$tabs.='<span title="place" class="add1" onmousedown="seePlace(this,\''.$theid.'\',\''.$count.'\',\''.$rdb.'\')">Местонахождение</span>';
 					$tabdivs.='<div class="adddiv" id="place'.$count.'" style="display:none"></div>';
-					//$tabs.='<span class="place" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span>';
 				}
 			}
 /*-----------кнопка для перехода в сервис--------*/
 		//$output.='<div><span class="url uslugi" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span></div>';
 /*-------конец кнопка для перехода в сервис------*/
 
-			$output.='<div class="tabs">'.$tabs.'<span class="url" onmousedown="sendToScan(\''.$theid.'\');">Копировать фрагмент</span></div><div class="tabdivs">'.$tabdivs.'</div>';
+			//кнопка на сканирование добавляется или не добавляется в зависимости от фонда
+			if(get_base($_POST,$theid) == 'true'){
+				$output.='<div class="tabs">'.$tabs.'<span class="url uslugi" onmousedown="sendToScan(\''.$theid.'\');">Копировать фрагмент</span></div><div class="tabdivs">'.$tabdivs.'</div>';
+			}else{	
+				$output.='<div class="tabs">'.$tabs.'</div><div class="tabdivs">'.$tabdivs.'</div>';
+			}
 			
 			if($imgsrc!="")
 				$imgstr='<figure tabindex="1"><img border="0" hspace="0" vspace="0" alt="" title="" src="'.$imgsrc.'"/></figure>';
@@ -238,4 +242,5 @@ foreach ($response0 as $key => $value)
 		echo '</div>';
 	}
 }
+
 ?>
