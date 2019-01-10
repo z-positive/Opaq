@@ -2,7 +2,7 @@
 // /htdocs/wlib/html/_includes
 function get_base($data,$id){
 	
-	$wrong_bases = array(12,17,21,425); // базы, из которых нельзя заказать сканирование
+	$wrong_bases = array(12,17,21,404,410,417,425); // базы, из которых нельзя заказать сканирование
 	
 	$json = json_decode($data[response],1);
 	
