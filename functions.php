@@ -1,6 +1,5 @@
 <?php
 	///htdocs/wlib/html/_includes
-
 	function OsIs($OS)
 	{
 		$tmp = php_uname();
@@ -262,7 +261,26 @@
 		return $str;
 	}
 
-	
+	function check_bases($data){
+		$array = json_decode($data,1);
+		
+		$wrong_bases = array(12,17,404,410,417,425);
+		$get_off = array();
+		
+		foreach($array[response_0] as $item){
+		
+			if (array_key_exists('id', $item)){
+			
+				if(in_array($item[sourceIddb], $wrong_bases)){
+					
+					$get_off[] = $item[id];
+				
+				}
+			}
+		}
+		
+		return json_encode($get_off);
+	}
 	
 	
 ?>

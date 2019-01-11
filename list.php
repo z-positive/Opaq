@@ -108,7 +108,7 @@ if(isset($_POST['response']))
 			$globaloutput.='<option value="'.$total.'" selected="selected">все</option>';
 		else
 			$globaloutput.='<option value="'.$total.'">все</option>';
-		$globaloutput.='</select></span><span class="fleft"><b style="margin-left:5px">Всего записей в списке:</b> <b class="highlight" id="termin1">'.$total.'</b>&#160;&#160;<b>Отмечено записей:</b> <b class="highlight" id="marked">0</b><br/>'.$uclaim.'<input type="button" class="button2" value="Печать cписка" onmousedown="listPrint();"/><input type="button" class="button2" value="Выгрузить в Word" onmousedown="loadWord();"/><input type="button" class="button2" value="Удалить" onmousedown="listDel();"/><input type="button" class="button2" value="Копировать фрагмент" onmousedown="multiAddToScan();"/>'.$uhistlog.'</span><div class="spacer" style="height: 5px"> </div></div>';
+		$globaloutput.='</select></span><span class="fleft"><b style="margin-left:5px">Всего записей в списке:</b> <b class="highlight" id="termin1">'.$total.'</b>&#160;&#160;<b>Отмечено записей:</b> <b class="highlight" id="marked">0</b><br/>'.$uclaim.'<input type="button" class="button2" value="Печать cписка" onmousedown="listPrint();"/><input type="button" class="button2" value="Выгрузить в Word" onmousedown="loadWord();"/><input type="button" class="button2" value="Удалить" onmousedown="listDel();"/><input type="button" id="copy_button" class="button2" value="Копировать фрагмент" onmousedown="multiAddToScan();"/>'.$uhistlog.'</span><div class="spacer" style="height: 5px"> </div></div>';
 		$N1=ceil($total/$length);
 		//$output.='<div><span class="url uslugi" onmousedown="sendToScan(\''.$theid.'\');">Заказать копию</span></div>';
 		if($N1!= 1)
@@ -117,6 +117,7 @@ if(isset($_POST['response']))
 		}
 		$count=0;
 		$linordcount=-1;
+		$globaloutput.= '<div id="red_message"></div>';
 		$globaloutput.='<div class="col_content"><table cellspacing="0" class="filter mb210x" id="tableorder"><thead><tr class="h2"><td class="w3 acenter amiddle"><input type="checkbox" onclick="Marklist(this)" id="mark" value=""/></td><td class="w3 acenter b amiddle nowrap">№<br/>п/п</td><td class="acenter b amiddle">Документ</td><td class="acenter b amiddle td2unvisible">База данных</td><td class="acenter b amiddle td2unvisible">Дата добавления</td></tr></thead><tbody>';
 		foreach ($response0 as $key => $value)
 		{
@@ -183,7 +184,52 @@ else
 }
 include (THEPAGESPATH.'/includes/'.$particle.'searchdiv.php');
 echo $globaloutput;
-include (THEPAGESPATH.'/includes/'.$particle.'footer.php');
+?>
+<script type="text/javascript">
+	
+	var data = <?php echo check_bases($_POST['response']); ?>;
+	
+	var checkboxes = document.getElementsByName("marker");
+	
+	for(var i=0; i<checkboxes.length; i++){
+	
+		if(data.indexOf(checkboxes[i].value) != -1){
+			
+			checkboxes[i].parentNode.className += " get_off";
+			var firstsib = checkboxes[i].parentNode.nextSibling;
+			var title = firstsib.nextSibling;
+			title.style = "color:red";
+			
+		}
 
+	}
+	
+	var off_checkboxes = document.getElementsByClassName('get_off');
+	
+	if(off_checkboxes.length>0){
+		var red_message = document.getElementById('red_message');
+		red_message.innerHTML = '<small>Издания, выделенные красным цветом, не подлежат копированию.</small>';
+		red_message.style = 'margin: 1% 10%; color:red; border:1px solid #777; padding:5px; text-align:center'
+	
+	}
+	
+	var btn = document.getElementById('copy_button');
+	
+	for(var j=0; j<off_checkboxes.length; j++){
+		off_checkboxes[j].firstChild.addEventListener('click',function check_boxes(){
+			
+			if(this.checked == true){
+				btn.disabled = true;
+			}else{
+				btn.disabled = false;
+			}
+			
+		});
+	}
+	
+</script>
+
+<?php
+include (THEPAGESPATH.'/includes/'.$particle.'footer.php');
 ?>
 
