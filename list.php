@@ -209,7 +209,7 @@ echo $globaloutput;
 	if(off_checkboxes.length>0){
 		var red_message = document.getElementById('red_message');
 		red_message.innerHTML = '<small>Издания, выделенные красным цветом, не подлежат копированию.</small>';
-		red_message.style = 'margin: 1% 10%; color:red; border:1px solid #777; padding:5px; text-align:center'
+		red_message.style = 'margin: 1% 10%; color:red; border:1px solid #777; padding:5px; text-align:center';
 	
 	}
 	
