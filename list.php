@@ -187,8 +187,9 @@ echo $globaloutput;
 ?>
 <script type="text/javascript">
 	
-	var data = <?php echo check_bases($_POST['response']); ?>;
+	var data = <?php echo check_bases($_POST['response']); ?>; //получение списка критериев для отключения возможности заказа
 	
+	//раскрашивание и добавление класса get_off
 	var checkboxes = document.getElementsByName("marker");
 	
 	for(var i=0; i<checkboxes.length; i++){
@@ -204,8 +205,8 @@ echo $globaloutput;
 
 	}
 	
-	var off_checkboxes = document.getElementsByClassName('get_off');
 	
+	var off_checkboxes = document.getElementsByClassName('get_off');
 	if(off_checkboxes.length>0){
 		var red_message = document.getElementById('red_message');
 		red_message.innerHTML = '<small>Издания, выделенные красным цветом, не подлежат копированию.</small>';
@@ -213,19 +214,24 @@ echo $globaloutput;
 	
 	}
 	
+	// блок отключения
 	var btn = document.getElementById('copy_button');
 	
-	for(var j=0; j<off_checkboxes.length; j++){
-		off_checkboxes[j].firstChild.addEventListener('click',function check_boxes(){
+
+	window.addEventListener('click', function all_check_boxes(){
+		
+		for(var j=0; j<off_checkboxes.length; j++){	
 			
-			if(this.checked == true){
+			if(off_checkboxes[j].firstChild.checked == true){
 				btn.disabled = true;
+				break;
 			}else{
 				btn.disabled = false;
 			}
+		}
 			
-		});
-	}
+	}); 
+	
 	
 </script>
 
