@@ -6,7 +6,7 @@ class Db{
 	
 	public function pdo_connect(){
 		try{
-            $this->pdo = new PDO('mysql:host=192.168.1.18; port=3306;dbname=artlib; charset=utf8', 'user117', 'user1171357909');
+            $this->pdo = new PDO('mysql:host=192.168.1.18; port=3306;dbname=###; charset=utf8', '###', '###');
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
         }
