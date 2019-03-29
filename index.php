@@ -260,6 +260,36 @@ require_once "get_books.php";
 	}
 
 </script>
+<?php
+
+if($_POST){
+	if($_POST['from'] == 'liart.ru'){
+	
+		echo "<script type='text/javascript'>
+		document.getElementsByClassName('header')[0].innerHTML = 'Поиск...';
+		
+		//добавление запроса в строку поиска
+		document.getElementById('itemsimple').value = '".$_POST['opac']."'; 
+		
+		//очистка от слайдера и новых поступлений
+		document.getElementById('sldr').innerHTML= '<img src=http://liart.ru/media/files/img/2019/26032019/35.gif>';
+		var btn_sldr = document.getElementById('more_books');
+		btn_sldr.parentNode.removeChild(btn_sldr);
+		
+		
+		
+		//клин по кнопке
+		var button = document.getElementById('simple_search').firstChild;
+		var event = new Event('mousedown');
+		setTimeout(function(){button.dispatchEvent(event)},2000);
+		
+		</script>";
+	}
+}
+ 
+?>
+
+
 <?php 
 include (THEPAGESPATH.'/includes/footer.php');
 ?>
