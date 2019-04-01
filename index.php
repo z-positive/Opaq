@@ -1,354 +1,299 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Электронные каталоги РГБИ</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Script-Type" content="text/javascript"/>
-<meta name="keywords" content="электронный абонемент, электронная библиотека, информационные технологии, базы данных, каталоги библиотек, компьютеризация, автоматизация, OPAC-Global, электронные каталоги, поиск книг, Российская государственная библиотека искусств, РГБИ" />
-<meta name="author" content="ООО «ДИТ-М»" />
-<meta name="Description" content="" />
-<link rel="shortcut icon" href="//opac64-test.liart.local/wlib/favicon.ico" type="image/x-icon"/>
-<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-<meta http-equiv="x-rim-auto-match" content="none" />
-<meta name="format-detection" content="telephone=no" />
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 <?php 
-$portname='http';
-if(getenv("HTTPS")!="")
-	$portname='https';
-define('THEPORTNAME', $portname);
-define('THEHOSTNAME', 'opac64-test.liart.local');
-define('THEHISTORYPATH', 'C:/opac-global/web/wlib/htdocs/wlib/_wlib');
-define('THEHTMLPATH', 'wlib/wlib/_wlib');
-define('THEIMGPATH', '/wlib/wlib/img');
-define('THEFULLJSPATH', 'C:/opac-global/web/wlib/htdocs/wlib/js');
-define('THEJSPATH', '/wlib/wlib/js');
-define('THEFULLCSSPATH', 'C:/opac-global/web/wlib/htdocs/wlib/css');
-define('THECSSPATH', '/wlib/wlib/css');
-define('THEPAGESPATH', 'wlib/html/pages');
-define('THEMODULESPATH', 'wlib/html/_modules');
-define('THEINCLUDESPATH', 'wlib/html/_includes');
-define('THEFOLDERNAME', 'wlib');
-define('THEPATHACTRCP', '/request');
-define('THEOGTITLE', 'Электронные каталоги РГБИ');
-define('THEOGDESC', '');
-define('THEOGURL', '//opac64-test.liart.local/wlib');
-define('THEOGIMAGE', '//opac64-test.liart.local/wlib/wlib/img/logo_big.jpg');
-define('FLAG45', 'RGBIG');
-
-/*-- распечатка запроса
-foreach ($_POST as $a => $v)
-{
-	echo '"'.$a.'"="'.$v.'"'."
-";
-}
-//error_reporting(0);
-//echo getenv("HTTP_HOST");
- --*/
-
-$flag45=0;
-$skin="blue";
-$iddb="";
-$lind="";
-$codemenu="";
-$ltitle="";
-$laddress="";
-$sigla="";
-$site="";
-$elcat="";
-$particle="";
-$datascript='';
-$bodyclass='';
-$ogtitle='';
-$ogurl='';
-$ogimage='';
-$ogdesc='';
-
-if((isset($_POST["p"]))||(isset($_POST["m"])))
-{
-	if(isset($_POST["p"]))
-	{
-		$bodyclass='sheet_'.$_POST["p"];
-	}
-	if(isset($_POST["m"]))
-	{
-		$bodyclass='sheet_'.$_POST["m"];
-	}
-	$bodyclass=str_replace("/", "_",$bodyclass);
-	$bodyclass=str_replace(".", "_",$bodyclass);
-	$datascript.='var _sheet="'.$bodyclass.'";'."
-";
-}
-
-if(isset($_POST['_searchtitle']))
-{
-	$ogtitle.=$_POST['_searchtitle'];
-	$ogdesc.=$_POST['_searchtitle'];
-}
-else
-{
-	$ogtitle=THEOGTITLE;
-	$ogdesc=THEOGDESC;
-}
-
-if(isset($_POST['_searchurl']))
-{
-	$ogurl.=$_POST['_searchurl'];
-}
-else
-{
-	$ogurl=THEOGURL;
-}
-
-if(isset($_POST['_searchimg']))
-{
-	$ogimage.=$_POST['_searchimg'];
-}
-else
-{
-	$ogimage=THEOGIMAGE;
-}
-
-echo '<meta property="og:title" content="'.$ogtitle.'" />
-<meta property="og:description" content="'.$ogdesc.'" />
-<meta property="og:url" content="'.$ogurl.'" />
-<meta property="og:image" content="'.$ogimage.'" />
-';
-
-if(isset($_POST['_bodyclass']))
-{
-	if($bodyclass != "")
-		$bodyclass.=' '.$_POST['_bodyclass'];
-	else
-		$bodyclass.=$_POST['_bodyclass'];
-}
-
-if(isset($_POST['_flag45']))
-{
-	$flag45=1;
-	$datascript.='var _flag45="yes";'."
-";
-}
-if(isset($_POST['_iddb']))
-{
-	$datascript.='var _iddb="'.$_POST['_iddb'].'";'."
-";
-}
-if(isset($_POST['_localiddb']))
-{
-	$iddb=$_POST['_localiddb'];
-	$particle="lib_";
-	$datascript.='var _localiddb="'.$_POST['_localiddb'].'";'."
-";
-}
-if(isset($_POST['_skin']))
-{
-	if($_POST['_skin']!="")
-		$skin=$_POST['_skin'];
-	$datascript.='var _skin="'.$skin.'";'."
-";
-}
-if(isset($_POST['_ltitle']))
-{
-	$ltitle=$_POST['_ltitle'];
-	$datascript.='var _ltitle="'.$ltitle.'";'."
-";
-}
-if(isset($_POST['_lind']))
-{
-	$lind=$_POST['_lind'];
-	$datascript.='var _lind="'.$lind.'";'."
-";
-}
-if(isset($_POST['_codemenu']))
-{
-	$codemenu=$_POST['_codemenu'];
-	$datascript.='var _codemenu="'.$codemenu.'";'."
-";
-}
-if(isset($_POST['_laddress']))
-{
-	$laddress=$_POST['_laddress'];
-	$datascript.='var _laddress="'.$laddress.'";'."
-";
-}
-if(isset($_POST['_sigla']))
-{
-	$sigla=$_POST['_sigla'];
-	$datascript.='var _sigla="'.$sigla.'";'."
-";
-}
-if(isset($_POST['_site']))
-{
-	$site=$_POST['_site'];
-	$datascript.='var _site="'.$site.'";'."
-";
-}
-if(isset($_POST['_elcat']))
-{
-	$elcat=$_POST['_elcat'];
-	$datascript.='var _elcat="'.$elcat.'";'."
-";
-}
-if(isset($_POST['_addfilters']))
-{
-	$datascript.='var _addfilters="'.$_POST['_addfilters'].'";'."
-";
-}
-if(isset($_POST['_linkstring']))
-{
-	$datascript.='var _linkstring="'.$_POST['_linkstring'].'";'."
-";
-}
-if(isset($_POST['_typereg']))
-{
-	$datascript.='var _typereg="'.$_POST['_typereg'].'";'."
-";
-}
-if(isset($_POST['_cataloguer']))
-{
-	$particle="cataloguer_";
-	$datascript.='var _cataloguer="'.$_POST['_cataloguer'].'";'."
-";
-}
-if(isset($_POST['_typework']))
-{
-	$datascript.='var _typework="'.$_POST['_typework'].'";'."
-";
-}
-if(isset($_POST['_basequant']))
-{
-	$datascript.='var _basequant="'.$_POST['_basequant'].'";'."
-";
-}
-if(isset($_POST['_rubricator']))
-{
-	$datascript.='var _rubricator="'.$_POST['_rubricator'].'";'."
-";
-}
-if($datascript!="")
-{
-	$datascript="
-".'<script>'."
-".$datascript.'</script>'."
-";
-}
-$qstr=getenv("QUERY_STRING");
-
-//блок теста запроса
-
-
+///htdocs/wlib/html/pages/index
+include (THEPAGESPATH.'/includes/searchdiv.php');
+require_once "get_books.php";
 ?>
-
-<?php
-if(!isset($_POST['p']))
-{
-	if(!isset($_POST['m']))
-	{
-		if(!isset($_GET['_overcharge']))
-		{
-			$page = THEPAGESPATH.'/index/index.php';
-		}
-		else
-		{
-			$page = THEPAGESPATH.'/privat/_overcharge.php';
-			$datascript.='<script>var overcharge="'.$_GET['_overcharge'].'";</script>'."
-";
-			$qstr='';
-		}
-	}
-	else
-	{
-		$page = THEMODULESPATH.'/'.$_POST['m'];
-		if(strpos($_POST['m'], 'cataloguer')!==false)
-		{
-			$particle="cataloguer_";
-		}
-	}
-}
-else
-{
-	$page = THEPAGESPATH.'/'.$_POST['p'].'.php';
-}
-$fgs="";
-if(isset($_POST['_numsean']))
-{
-	$qstr=$_POST['_numsean'];
-	if(file_exists(THEHISTORYPATH.'/'.$qstr.'/enter.js'))
-	{
-		$fgs='<script src="/'.THEHTMLPATH.'/'.$qstr.'/enter.js"></script>';
-	}
-}
-if(isset($_POST['_logintype']))
-{
-	$qstr.='&_logintype='.$_POST['_logintype'];
-}
-if(isset($_POST['_login']))
-{
-	$qstr.='&_login='.$_POST['_login'];
-}
-if(isset($_POST['_password']))
-{
-	$qstr.='&_password='.$_POST['_password'];
-}
-if(isset($_POST['_auth']))
-{
-	$qstr.='&_auth='.$_POST['_auth'];
-}
-if(isset($_POST['_userinfo']))
-{
-	$qstr.='&_userinfo='.$_POST['_userinfo'];
-}
-if(isset($_POST['_code']))
-{
-	$qstr.='&_code='.$_POST['_code'];
-}
-if(isset($_POST['_fields']))
-{
-	$qstr.='&_fields='.$_POST['_fields'];
-}
-if(isset($_POST['_oldsean']))
-{
-	$qstr.='&_oldsean='.$_POST['_oldsean'];	
-}
-
-if($fgs=="")
-{
-	$fgs=file_get_contents(THEPORTNAME.'://'.THEHOSTNAME.''.THEPATHACTRCP.'?_action=penter&_errorhtml=error2&_numsean='.$qstr);
-}
-
-$fpath=THEFOLDERNAME.'/_conf/db.conf';
-$frezult = file_get_contents($fpath);
-$fjson=json_decode($frezult);
-
-$smpath=THEFOLDERNAME.'/_conf/sitemap.conf';
-$smrezult = file_get_contents($smpath);
-$smjson=json_decode($smrezult);
-
-$qarr=explode('/', $fgs);
-$qlen = count($qarr);
-$nsean=$qarr[$qlen-3];
-$qpath=THEHISTORYPATH.'/'.$nsean.'/db.conf';
-$qrezult='';
-$qjson='';
-if(file_exists($qpath))
-{
-	$qrezult = file_get_contents($qpath);
-	$qjson=json_decode($qrezult); 
-}
-if(isset($qjson->flag45))
-{
-	$flag45=1;
-}
-echo $fgs;
-echo $datascript;
-
-include ($page);
-
-
-?>
-
-</body>
-</html>
-
+<div id="infor">
+	<div class="table index_page">
+		<div class="row h100">
+			<!--<div class="td w33 p3 h100 vtop curs acenter" onmousedown="searchNews(null,300);">-->
+			<div class="td w33 p3 h100 vtop acenter">
+				<div class="dib w100">
+					<div onmousedown="searchNews(null,300);" class="header">Новые поступления</div>
+					<!--div class="spacer h100x"></div-->
+					<div id="newbooks"><!-- не трогать -->
 	
+						<div id="sldr"></div>
+						
+						
+					</div><!-- не трогать -->
+					<a class="button15" id="more_books">Показать еще...</a>
+					<div class="spacer h50x"></div>
+					<div onmousedown="searchNews(null,300);" class="else1"><span>Список новых поступлений...</span></div>
+					
+				</div>
+				
+				<div id="lstbks"></div>
+						
+				<div id="btn_add" style="clear:both"><a class="button15" id="add_books">Добавить еще...</a></div>
+				
+				
+			</div>
+			
+			
+			<!--div class="td h100 p3 vtop">
+				<div class="header w100">Популярное</div>
+				<div class="table w100">
+					<div class="row h100">
+						<div class="td w50 vtop curs acenter" onmousedown="goToLocation('bookrating');">
+							<div class="dib">
+								<div class="header1">Книги</div>
+								<div id="bookrating"></div>
+								<div class="else1"><span>Еще...</span></div>
+							</div>
+						</div>
+						<div class="td vtop curs acenter" onmousedown="goToLocation('ebookrating');">
+							<div class="dib">
+								<div class="header1">Электронные книги</div>
+								<div id="ebookrating"></div>
+								<div class="else1"><span>Еще...</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div-->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var data = <?php echo $con->data; ?>;
+
+	var slider = {};
+
+	slider.get_link = function(text){
+		
+		var htmlObject = document.createElement('div');
+		
+		htmlObject.innerHTML = text;
+		
+		//проверка есть ли ссылка в публикации о новинке
+		if (htmlObject.innerHTML.indexOf("</a>") != -1) {
+			var link = htmlObject.getElementsByTagName('a');
+			return link[0].href;
+		}else{
+			return '#';
+		}
+		
+	}
+	
+	//счетчики для слайдера
+	slider.start = 0;
+	slider.end = 3;
+	
+	
+
+	var prnt = document.getElementById('sldr');
+
+	slider.cycle = function(){
+		
+		for(var i=slider.start;i<slider.end;i++){
+
+		var sldr_item = document.createElement('div');
+		sldr_item.className = "sldr-item";
+		sldr_item.style = "width:300px;";
+		
+		var img = document.createElement('img');
+		img.src = "http://liart.ru/media/uploads/newinlib/itemavatars/big/" + data[i]['avatar_img_name'];
+		img.style = "padding:10px;";
+		
+		
+		var link = document.createElement('a');
+		
+		link.href = slider.get_link(data[i]['content']);
+		
+		//console.log(link.href);
+		link.target = "_blank";
+		link.innerHTML = "Ccылка на книгу";
+		
+		
+		var image_link = document.createElement('a');
+		image_link.href = link.href;
+		
+		//если ссылки в публикации о новинке нет, то атрибут ссылки удаляется
+		if(link.href.slice(-1) == '#'){
+			image_link.removeAttribute('href');
+		}
+		
+		image_link.target = "_blank";
+		
+		
+		var title = document.createElement('p');
+		title.innerHTML = data[i]['title'];
+		title.style = "line-height:1.5em;";
+		
+		
+		prnt.appendChild(sldr_item); //элемент слайдера
+		sldr_item.appendChild(image_link); //ссылка, в которой находится картинка
+		image_link.appendChild(img); //картинка
+		//sldr_item.appendChild(link); // отдельная ссылка на публикацию
+		sldr_item.appendChild(title); // заголовок
+	}
+
+	}
+
+	slider.cycle();
+
+	// пролистывание слайдера
+	slider.add_books = function(){
+		
+		prnt.innerHTML = '';
+		
+		if(slider.end == data.length){
+			slider.start=0;
+			slider.end=3;
+		}else{
+			slider.start+=3;
+			slider.end+=3;
+		}
+		
+		slider.cycle();
+	} 
+	
+	
+	//счетчики для листа
+	slider.startlist = 3;
+	slider.endlist = 9;
+	
+	//контейнер для листа
+	var lstbks = document.getElementById('lstbks');
+	
+	//цикл для добавления книг в лист
+	slider.cyclelist = function(){
+		
+		for(var j=slider.startlist;j<slider.endlist;j++){
+			
+			var lst_item = document.createElement('div');
+			lst_item.className = "list-item";
+			lst_item.style = "width:300px;";
+			
+			var img = document.createElement('img');
+			img.src = "http://liart.ru/media/uploads/newinlib/itemavatars/big/" + data[j]['avatar_img_name'];
+			img.style = "padding:10px;";
+			
+			var link = document.createElement('a');
+		
+			link.href = slider.get_link(data[j]['content']);
+			
+			//console.log(link.href);
+			//link.target = "_blank";
+			//link.innerHTML = "Ccылка на книгу";
+			
+			
+			var image_link = document.createElement('a');
+			image_link.href = link.href;
+			
+			//если ссылки в публикации о новинке нет, то атрибут ссылки удаляется
+			if(link.href.slice(-1) == '#'){
+				image_link.removeAttribute('href');
+			}
+			
+			image_link.target = "_blank";
+			
+			
+			var title = document.createElement('p');
+			var title_text = data[j]['title'];
+			
+			if(title_text.length>135){
+				title_text = title_text.substring(0,136) + " ...";
+			}
+			
+			
+			//title.innerHTML = data[j]['title'];
+			
+			title.innerHTML = title_text;
+			
+			title.style = "line-height:1.5em;";
+			
+			
+			lstbks.appendChild(lst_item); //элемент слайдера
+			lst_item.appendChild(image_link); //ссылка, в которой находится картинка
+			image_link.appendChild(img); //картинка
+			//sldr_item.appendChild(link); // отдельная ссылка на публикацию
+			lst_item.appendChild(title); // заголовок
+			
+
+		}
+
+	}
+	
+	
+	//добавление книг в лист
+	slider.add_books_list = function(){
+		
+		if(slider.endlist > 173){
+			document.getElementById('btn_add').style="display:none";
+		}
+		
+		slider.startlist+=6;
+		slider.endlist+=6;
+		slider.cyclelist();
+				
+	} 
+	
+	
+	document.getElementById('add_books').addEventListener('click',slider.add_books_list); 
+	document.getElementById('more_books').addEventListener('click',slider.add_books);
+
+</script>
+<script type="text/javascript">
+	//блок бездействия
+	var t;
+	document.onload = resetTimer;
+	document.onmousemove = resetTimer;
+	document.onmousedown = resetTimer; 
+	document.ontouchstart = resetTimer;
+	document.onclick = resetTimer;     
+	document.onscroll = resetTimer;    
+	document.onkeypress = resetTimer;
+
+
+	function clicker() {
+		document.getElementById('more_books').click();
+	}
+
+	function resetTimer() {
+		clearTimeout(t);
+		t = setTimeout(clicker, 15000)
+		  // 1000 milisec = 1 sec
+	}
+
+</script>
+<?php
+
+if($_POST){
+	if($_POST['from'] == 'liart.ru'){
+	
+		echo "<script type='text/javascript' defer>
+		document.getElementsByClassName('header')[0].innerHTML = 'Поиск...';
+		
+		//добавление запроса в строку поиска
+		document.getElementById('itemsimple').value = '".$_POST['opac']."'; 
+		
+		//очистка от слайдера и новых поступлений
+		document.getElementById('sldr').innerHTML= '<img src=http://liart.ru/media/files/img/2019/26032019/35.gif>';
+		var btn_sldr = document.getElementById('more_books');
+		btn_sldr.parentNode.removeChild(btn_sldr);
+		
+		//установка типа поиска
+		var type = document.getElementsByClassName('select')[0].lastChild;
+		type.className = 'iFT';
+		type.innerHTML = 'Все поля';
+		
+		//клик по кнопке	
+		var button = document.getElementById('simple_search').firstChild;
+		var event = new Event('mousedown');
+		button.dispatchEvent(event);		
+		
+		
+		</script>";
+	}
+}
+
+?>
+
+
+<?php 
+include (THEPAGESPATH.'/includes/footer.php');
+?>
