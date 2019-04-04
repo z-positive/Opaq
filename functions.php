@@ -264,7 +264,7 @@
 	function check_bases($data){
 		$array = json_decode($data,1);
 		
-		$wrong_bases = array(12,17,404,410,417,425);
+		$wrong_bases = array(12,17,21,404,410,417,425);
 		$get_off = array();
 		
 		foreach($array[response_0] as $item){
