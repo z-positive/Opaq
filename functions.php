@@ -246,25 +246,14 @@
 		return $fc.mb_substr($str, 1, mb_strlen($str, 'UTF-8'), 'UTF-8');
 	}
 	
-	function getuserinfo($session){
 
-		$handle = fopen(THEHISTORYPATH."/".$session."/user.conf", "r");
-		
-		while (!feof($handle)) {
-			$buffer[] = fgets($handle, 4096);
-			
-		}
-		fclose($handle);
-		
-		$str = http_build_query($buffer);
-			
-		return $str;
-	}
+	
+	
 
 	function check_bases($data){
 		$array = json_decode($data,1);
 		
-		$wrong_bases = array(12,17,21,404,410,417,425);
+		$wrong_bases = array(12,17,21,404,410,417,425,400,403,305);
 		$get_off = array();
 		
 		foreach($array[response_0] as $item){
